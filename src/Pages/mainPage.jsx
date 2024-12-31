@@ -12,7 +12,8 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 function mainPage() {
 
-    const API_LINK = "https://api.themoviedb.org/3/trending/all/week?api_key=118a416e242696514bbe44e8675550a1&page=1language=en-US";  
+    const API_LINK = "https://api.themoviedb.org/3/trending/all/week?api_key=118a416e242696514bbe44e8675550a1&page=1language=en-US"; 
+    const pageDesc = "mainPage" 
 //   const [count, setCount] = useState(0)
 //   const API_LINK = "https://api.themoviedb.org/3/trending/all/week?api_key=118a416e242696514bbe44e8675550a1&page=1language=en-US";  
 //   const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
@@ -86,7 +87,7 @@ function mainPage() {
    
     
     <Navbar />
-    <MediaCardsSection link={API_LINK} />
+    <MediaCardsSection link={API_LINK} pageDesc={pageDesc} />
       {/* <section className="media-grid" >
         {allElements.map((element, index) => (
             <div key={index} className="media-card">

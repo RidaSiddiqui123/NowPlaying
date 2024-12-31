@@ -3,11 +3,11 @@ import '../App.css'
 import '../styles.css'
 import { useNavigate } from 'react-router-dom';
 import {useEffect, useState} from "react";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
+import ProviderSection from './providerSection';
+import Pagination from './Pagination';
 
-
-function mediaCardsSection ({link}) {
+function mediaCardsSection ({link, pageDesc}) {
     
     const API_LINK = "https://api.themoviedb.org/3/trending/all/week?api_key=118a416e242696514bbe44e8675550a1&page=1language=en-US";  
     const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
@@ -19,23 +19,85 @@ function mediaCardsSection ({link}) {
   
     const [allElements, setAllElements] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-
     const [media, setMedia] = useState('');
-
     const [contentType, setContentType] = useState("details");
     const [providers, setProviders] = useState({buyRent: [], stream: [], fallback: ""});
-   
     const navigate = useNavigate();
+    const [selectedMedia, setSelectedMedia] = useState(null);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage, setPostsPerPage] = useState(20);
   
 
     const fetchMovies = async (url) => {
         
         try {
-            // const API_LINK = "https://api.themoviedb.org/3/trending/all/week?api_key=118a416e242696514bbe44e8675550a1&page=1language=en-US";
-            const response = await fetch(url);
-            const data = await response.json();
-            setAllElements(data.results.sort((a, b) => b.popularity - a.popularity)); // Save movies in state
-            console.log(data.results);
+            
+            
+            if (pageDesc === "searchResults") {
+                // const response = await fetch(url);
+                // const data = await response.json();
+
+                let page = 1;
+                let allMovies = [];
+    
+                while (true) {
+                    const response = await fetch(`${url}&page=${page}`);
+                    const data = await response.json();
+    
+                    // console.log(data.results);
+                    if (data.results && data.results.length > 0) {
+                        allMovies = [...allMovies, ...data.results];
+                    }
+                    else {
+                        break;
+                    }
+                    
+                    page++;
+    
+                }
+                const sortedMovies = allMovies.filter(movie => movie.popularity > 5).sort((a, b) => b.popularity - a.popularity);
+                setAllElements(sortedMovies);
+
+            }
+
+            else {
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                console.log(data.results);
+                setAllElements(data.results);
+
+            }
+
+
+
+            // let page = 1;
+            // let allMovies = [];
+
+            // while (true) {
+            //     const response = await fetch(`${url}&page=${page}`);
+            //     const data = await response.json();
+
+            //     // console.log(data.results);
+            //     if (data.results && data.results.length > 0) {
+            //         allMovies = [...allMovies, ...data.results];
+            //     }
+            //     else {
+            //         break;
+            //     }
+                
+            //     page++;
+
+            // }
+
+            // console.log("almovie")
+            // console.log(allMovies);
+            // const sortedMovies = allMovies.filter(movie => movie.popularity > 5).sort((a, b) => b.popularity - a.popularity);
+            // console.log("sorted");
+            // console.log(sortedMovies);
+            // setAllElements(sortedMovies);
         } catch (error) {
             console.error("Error fetching movies:", error);
         } finally {
@@ -44,55 +106,9 @@ function mediaCardsSection ({link}) {
     };
     
     useEffect(() => {
-        
-    
         fetchMovies(link);
+    }, [link, currentPage]);
     
-        
-    }, [link]);
-    
-    const fetchProviders = async (id, media_type) => {
-        try {
-            let provider_link
-            if (media_type == "tv") {
-                provider_link = WATCH_PROVIDER_LINK_TV_1 + id + WATCH_PROVIDER_LINK_2;
-            }
-            else if (media_type == "movie") {
-                provider_link = WATCH_PROVIDER_LINK_1 + id + WATCH_PROVIDER_LINK_2; 
-            }
-            const response = await fetch(provider_link);
-            const data = await response.json();
-            
-            const providers = data.results?.US || [];
-            console.log(providers);
-            const rent = providers?.rent || [];
-            const buy = providers?.buy || [];
-            const stream = providers?.flatrate || [];
-    
-            console.log(rent);
-            console.log(buy);
-            console.log(stream);
-
-            const commonOptions =  rent.filter(({provider_id}) => buy.some((e) => e.provider_id === provider_id))
-            const diffOptions = rent.filter(({provider_id}) => !buy.some((e) => e.provider_id === provider_id))
-    
-            const buyRent = commonOptions.concat(diffOptions);
-    
-            console.log("buyRent")
-            console.log(buyRent);
-    
-            setProviders ({
-                buyRent, 
-                stream,
-                fallback: buyRent.length === 0 && stream.length === 0 ? "Now Playing Near You" : ""
-            })
-        }
-        catch(error) {
-            console.error("Error fetching providers");
-        }
-        // go through all the options and filter and put it inside probably an array buy/rent, stream, playing in theatre near you
-    
-    }
     
     const openPopup = (element) => {
         setMedia(element);
@@ -102,27 +118,23 @@ function mediaCardsSection ({link}) {
     const closePopup = () => {
         setIsPopupOpen(false);
         setContentType("details");
-        setProviders({
-            buyRent: [],
-            stream: [],
-            fallback: "",
-        });
+        // setProviders({
+        //     buyRent: [],
+        //     stream: [],
+        //     fallback: "",
+        // });
     }
-    
-    const closeWatchPopup = () => {
-        setContentType("details");
-        setProviders({
-            buyRent: [],
-            stream: [],
-            fallback: "",
-        });
-    }
+  
+  //iterate through all pages and put in a list, then filter through that lise to only keep popularity above 50, and sort to get most popular first
 
+    const lastPostIndex = currentPage * postsPerPage;
+    const firstPostIndex = lastPostIndex - postsPerPage;
 
+    const currentPosts = allElements.slice(firstPostIndex, lastPostIndex);
 
     return (
-        <section className="media-grid" >
-        {allElements.map((element, index) => (
+        <section key={currentPage} className="media-grid" >
+        {currentPosts.map((element, index) => (
             <div key={index} className="media-card">
                 <div className="media-img">
                     <img src = {IMG_PATH + element.poster_path} onClick={() => openPopup(element)}></img>
@@ -132,6 +144,14 @@ function mediaCardsSection ({link}) {
 
         ))}
 
+        {pageDesc === "searchResults" && (
+            <Pagination 
+            totalPosts={allElements.length} 
+            postsPerPage={postsPerPage} 
+            setCurrentPage={setCurrentPage} />
+        )}
+        
+ 
         {isPopupOpen && (
             <div className="popup-overlay" onClick={closePopup}>
                 <div className="popup" onClick={(e) => e.stopPropagation()}>
@@ -162,7 +182,7 @@ function mediaCardsSection ({link}) {
                                 
                             </div>
                             <div className="popup-button-box">
-                                    <button onClick={() => {setContentType("whereToWatch"); fetchProviders(media.id, media.media_type)}}>Where to Watch</button>
+                                    <button onClick={() => {setContentType("whereToWatch"); setSelectedMedia({id: media.id, type: media.media_type})}}>Where to Watch</button>
                                     <button>Reviews</button>
 
                             </div>
@@ -171,61 +191,11 @@ function mediaCardsSection ({link}) {
 
                     {contentType === "whereToWatch" && (
 
-                        // <ProviderSection />
-                        // have provider section something like that
-                        // on button send contentType and media to function, that function setContentType
-                        
-                        <div className="inner-watch-div"> 
-                            <ArrowBackIosIcon
-                            sx={{fontSize: 15}}
-                            onClick={() => closeWatchPopup()}
-                           
-
+                        <ProviderSection
+                            mediaId = {selectedMedia.id}
+                            mediaType = {selectedMedia.type}
+                            setContentType = {setContentType}
                             />
-                            <div className="providers-container">
-
-                                {providers.buyRent.length > 0 && (
-                                    <div className="outer-providers-div">
-                                        <div className="providers-div">
-                                        <h2 className="providers-title">Buy or Rent</h2>
-                                        <div className="providers-grid">
-                                            {providers.buyRent.map((provider, index) => (
-                                                <div key={index} className="provider-card">
-                                                    <img className = "provider_logo" src = {LOGO_PATH + provider.logo_path} title = {provider.provider_name}></img>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {providers.stream.length > 0 && (
-                                    <div className="outer-providers-div">
-                                        <div className="providers-div">
-                                            <h2 className="providers-title">Stream</h2>
-                                            <div className="providers-grid">
-                                                {providers.stream.map((provider, index) => (
-                                                    <div key={index} className="provider-card">
-                                                        <img className = "provider_logo" src = {LOGO_PATH + provider.logo_path} title = {provider.provider_name}></img>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {providers.fallback != "" && (
-                                    <div className="theatre-div">
-                                        <div className="outer-providers-div">
-                                            <div className="providers-div">
-                                                <h2 className="providers-title">Now Playing in Theatres Near You.</h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )} 
-                            </div>
-                        </div>
-
                     )}
 
                 </div>
