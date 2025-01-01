@@ -1,6 +1,6 @@
 import {useState} from 'react';
-import '../App.css'
-import '../styles.css'
+import '../cssFiles/navbar.css'
+import '../cssFiles/styles.css'
 import { useNavigate } from 'react-router-dom';
 
 function navbar() {

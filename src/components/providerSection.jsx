@@ -1,7 +1,5 @@
-
-
-import '../App.css'
-import '../styles.css'
+import '../cssFiles/providerSection.css'
+import '../cssFiles/styles.css'
 import {useEffect, useState} from "react";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 

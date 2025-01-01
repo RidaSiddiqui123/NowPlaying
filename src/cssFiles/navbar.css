@@ -1,0 +1,40 @@
+/* Start Search bar */
+
+.search-bar-navbar {
+    /* background-color: red; */
+    padding: 20px 55px;
+  
+    
+  }
+  
+  .navbar-container {
+    display: flex; /* Enable Flexbox */
+    justify-content: space-between; /* Push items to the edges */
+    align-items: center; /* Align items vertically (optional) */
+    width: 100%; /* Ensure the container spans full width */
+  }
+  
+  .search-container {
+    /* background-color: pink; */
+  }
+  
+  form {
+    background-color: var(--secondary-background);
+    width: 280px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 0px 5px black;
+  }
+  
+  input {
+    all: unset;
+    font: 15px system-ui;
+    color:white;
+    height: 100%;
+    width: 100%;
+    padding: 6px 9px;
+  }
+  /* End Search bar */
+  

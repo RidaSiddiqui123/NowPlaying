@@ -1,7 +1,7 @@
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
 import '../App.css'
-import '../styles.css'
+import '../cssFiles/styles.css'
 import { useNavigate } from 'react-router-dom';
 import {useEffect, useState} from "react";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';

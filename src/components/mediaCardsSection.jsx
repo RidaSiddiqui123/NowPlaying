@@ -1,6 +1,6 @@
 
-import '../App.css'
-import '../styles.css'
+import '../cssFiles/mediaCardsSection.css'
+import '../cssFiles/styles.css'
 import { useNavigate } from 'react-router-dom';
 import {useEffect, useState} from "react";
 
@@ -56,6 +56,7 @@ function mediaCardsSection ({link, pageDesc}) {
                     page++;
     
                 }
+                
                 const sortedMovies = allMovies.filter(movie => movie.popularity > 5).sort((a, b) => b.popularity - a.popularity);
                 setAllElements(sortedMovies);
 
@@ -133,24 +134,21 @@ function mediaCardsSection ({link, pageDesc}) {
     const currentPosts = allElements.slice(firstPostIndex, lastPostIndex);
 
     return (
+        <>
+        
         <section key={currentPage} className="media-grid" >
         {currentPosts.map((element, index) => (
             <div key={index} className="media-card">
                 <div className="media-img">
                     <img src = {IMG_PATH + element.poster_path} onClick={() => openPopup(element)}></img>
                 </div>
-                <h3 className="media-title">{element.name || element.title}</h3>     
+                <div className="media-title-container">
+                    <h3 className="media-title">{element.name || element.title}</h3>     
+                </div>
+                
             </div>
 
-        ))}
-
-        {pageDesc === "searchResults" && (
-            <Pagination 
-            totalPosts={allElements.length} 
-            postsPerPage={postsPerPage} 
-            setCurrentPage={setCurrentPage} />
-        )}
-        
+        ))}        
  
         {isPopupOpen && (
             <div className="popup-overlay" onClick={closePopup}>
@@ -204,6 +202,17 @@ function mediaCardsSection ({link, pageDesc}) {
         )}
  
       </section>
+      {pageDesc === "searchResults" && (
+            <Pagination 
+            totalPosts={allElements.length} 
+            postsPerPage={postsPerPage} 
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage} />
+        )}
+        <div style={{height: '50px'}}>
+
+        </div>
+      </>
     )
     
 }

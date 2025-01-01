@@ -1,7 +1,8 @@
 import { useParams} from 'react-router-dom';
 import Navbar from '../components/navbar';
 import MediaCardsSection from '../components/mediaCardsSection';
-
+import '../cssFiles/styles.css'
+import '../cssFiles/resultsSection.css';
 function resultsPage() {
 
 
@@ -14,8 +15,12 @@ function resultsPage() {
        <div>
       
         <Navbar />
-        Showing Results for: 
-        <span>{query}</span>
+        <section>
+            <div className="results-section">
+                <h1 className="results-title">Results for <span className="query-title">{query}</span></h1>
+            </div>
+        </section>
+       
         <MediaCardsSection key={query} link={SEARCH_API + query} pageDesc={pageDesc} />
        </div>
     )
