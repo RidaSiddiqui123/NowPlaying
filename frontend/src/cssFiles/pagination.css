@@ -1,0 +1,209 @@
+/* Pagination button section starts */
+
+.pagination-section {
+    padding-top: 30px;
+    padding-bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .pagination-button-section {
+    display: flex;
+    flex-direction: row;
+    border-top: solid 1px rgb(45, 45, 45);
+    border-bottom: solid 1px rgb(45, 45, 45);
+    width: 300px;
+    justify-content: space-between;
+    gap: 7px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .pages-button-section {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    padding: 5px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .pageButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+    border: solid 2px transparent;
+    font-weight: bold;
+    font-size: 17px;
+    padding: 5px 10px;
+    
+    cursor: pointer;
+  }
+  
+  .pageButton:hover {
+    color: rgb(74, 74, 74);
+  }
+
+  .dropdown-container {
+    position: relative;
+    display: inline-block; 
+  }
+
+  .dropdown-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: transparent;
+    border: solid 2px rgb(45, 45, 45);
+    border-radius: 7px;
+    color: var(--secondary-red);
+    font-weight: bold;
+    font-size: 15px;
+    width: 64px;
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+  }
+
+  .page-dropdown-icon {
+    font-size: 20px !important;
+    /* background-color: pink; */
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    width: 60px;
+    height: 280px;
+    overflow-y: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    background-color: var(--primary-background);
+    border: solid 2px rgb(45, 45, 45);
+    border-radius: 7px;
+  }
+  
+  .dropdown-button.top-dropdown {
+    top: 100%;
+  }
+
+  .dropdown-content.bottom-dropdown {
+    bottom: 100%;
+  }
+  
+  .dropdown-content.visible {
+    display: block;
+  }
+  
+  .dropdown-page {
+    color: white;
+    font-weight: bold;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+  }
+
+  .dropdown-page.active {
+    color: var(--secondary-red);
+  }
+
+  .dropdown-page:hover {
+    color: rgb(74, 74, 74);
+  }
+
+  .dropdown-content::-webkit-scrollbar {
+    width: 7px; 
+  }
+  
+  .dropdown-content::-webkit-scrollbar-thumb {
+    background: var(--secondary-red);
+    border-radius: 10px;
+    border: 2px solid var(--primary-background); 
+  }
+  
+  .dropdown-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .pageDirectionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+    border: solid 2px var(--secondary-red);
+    font-weight: bold;
+    font-size: 17px;
+    padding: 5px 5px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .pageDirectionButton:hover {
+    color: rgb(74, 74, 74);
+  }
+  
+  .pageDirectionButton:disabled {
+    cursor: default;
+    opacity: 0.4;
+    pointer-events: none;   
+  }
+  
+  .pageButton.active {
+    cursor:  default;
+    color:var(--secondary-red); 
+    font-size: 20px;
+    /* background-color: pink; */
+    border-bottom: solid 1px red;
+  }
+  
+  /* Pagination button section starts */
+
+  /* Responsive Screen Style Starts */
+
+  @media (max-width: 768px) {
+    .pagination-section {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .pagination-button-section {
+      display: flex;
+      flex-direction: row;
+      border-top: solid 1px rgb(45, 45, 45);
+      border-bottom: solid 1px rgb(45, 45, 45);
+      width: 300px;
+      justify-content: space-between;
+      gap: 7px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 5px;
+      padding-right: 5px;
+      align-items: center;
+      text-align: center;
+    }
+
+  }
+
+  /* Responsive Screen Style Ends */
