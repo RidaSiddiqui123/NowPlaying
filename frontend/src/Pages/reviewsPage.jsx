@@ -24,7 +24,7 @@ function reviewsPage() {
     
     const {id: mediaId, media_type: mediaType} = useParams();
     const IMG_PATH = "https://image.tmdb.org/t/p/w1280"
-    const API_LINK = "https://2e9da833-1b93-463b-8e20-20dff243b0ba-00-wyppqqhspac3.janeway.replit.dev/api/reviews/"; 
+    const API_LINK = "https://nowplaying-backend.onrender.com/api/reviews/"; 
     const [allReviews, setAllReviews] = useState(null);
     const [movie, setMovie] = useState("");
     const [isReviewPopupOpen, setIsReviewPopupOpen] = useState();
@@ -201,9 +201,9 @@ function reviewsPage() {
                                 </span>                            
                                 <span>
                                     {Array.isArray(genreArray) && genreArray.length >= 2 ? (
-                                        `‧ ${genreArray[0].name}/${genreArray[1].name}`
+                                        ` ‧ ${genreArray[0].name}/${genreArray[1].name}`
                                     ): Array.isArray(genreArray) && genreArray.length === 1 && (
-                                        `‧ ${genreArray[0].name}`
+                                        ` ‧ ${genreArray[0].name}`
                                     )}
                                 </span>
                             </h2>}
