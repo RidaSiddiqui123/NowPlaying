@@ -8,7 +8,7 @@ dotenv.config();
 
 //Connect to MongoDB
 const MongoClient = mongodb.MongoClient;
-const port = 8000;
+const port = process.env.PORT || 8000;
 const mongoURL  = "mongodb+srv://rida:IpkYdNb5x2jJjcn6@cluster0.gm3dmu3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 MongoClient.connect(
