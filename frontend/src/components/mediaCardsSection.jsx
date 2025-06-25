@@ -55,7 +55,6 @@ function mediaCardsSection ({link, pageDesc}) {
             setShowSpinner(true);
         }, 500);
 
-    
         try {
             
             let filteredMovies

@@ -13,15 +13,12 @@ import '../cssFiles/reviews.css';
 import WriteReviewIcon from '@mui/icons-material/EditNote';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ExitIcon from '@mui/icons-material/Clear';
-
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useNavigate } from 'react-router-dom';
-
 import defaultPoster from "/public/default_poster.jpg";
 
 
 function reviewsPage() {
-    
     const {id: mediaId, media_type: mediaType} = useParams();
     const IMG_PATH = "https://image.tmdb.org/t/p/w1280"
     const API_LINK = "https://nowplaying-backend.onrender.com/api/reviews/"; 
@@ -36,10 +33,21 @@ function reviewsPage() {
     const [isReviewMissingErrorVisible, setIsReviewMissingErrorVisible] = useState(false);
     const [isReviewLengthErrorVisible, setIsReviewLengthErrorVisible] = useState(false);
     const [isButtonVisible, setIsButtonVisible] = useState(false);
+    
+    const [isLoading, setIsLoading] = useState(false);
+    const [showSpinner, setShowSpinner] = useState(false);
+
     const navigate = useNavigate();
 
     const fetchReviews = async (url) => {
         
+        setIsLoading(true);
+        setShowSpinner(false);
+
+        const timeout = setTimeout(() => {
+            setShowSpinner(true);
+        }, 500);
+
         try {
             const response = await fetch(url + mediaType + "/" + mediaId);
             const data = await response.json();
@@ -49,6 +57,11 @@ function reviewsPage() {
 
         } catch (error) {
             console.error("Error fetching movies:", error);
+        } 
+        finally {
+            clearTimeout(timeout);
+            setIsLoading(false);
+            setShowSpinner(false);
         }
     };
 
@@ -178,6 +191,17 @@ function reviewsPage() {
   return (
    
         <section className="reviews-page">
+
+            {isLoading && showSpinner && (
+                        <div className="spinner-container">
+                            <div className="spinner-div">
+                                <div className="spin-animation-icon">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    )}
+
             <div className="reviews-page-header">
                 <div className="header-buttons-container">
                     <KeyboardBackspaceIcon className="review-page-back-button" onClick={handleBack}/>
